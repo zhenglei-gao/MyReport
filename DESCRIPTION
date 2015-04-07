@@ -1,0 +1,10 @@
+Package: MyReport
+Type: Package
+Title: Create Report Skeleton using rmarkdown.
+Version: 0.1.1-1
+Date: 2015-04-07
+Authors@R: person("Gao", "Zhenglei", email = paste("zhenglei.gao", "gmail.com", sep = "@"), role = c("aut", "cre"))
+URL: https://github.com/zhenglei-gao/MyReport
+BugReports: https://github.com/zhenglei-gao/MyReport/issues
+Description: using it as a starting point.
+License: MIT

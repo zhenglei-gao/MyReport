@@ -1,0 +1,143 @@
+---
+title: "Change the title"
+author: "Zhenglei Gao"
+date: '`r format(Sys.time(), "%B %d, %Y")`'
+output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+  html_document:
+    fig_caption: no
+    fig_height: 7
+    fig_width: 9
+    number_sections: yes
+    theme: journal
+    toc: yes
+  word_document:
+    fig_caption: yes
+    fig_height: 7
+    fig_width: 9
+---
+
+# My Notes
+
+```{r, echo=FALSE}
+out_type <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+evalhtml <- switch(out_type,    
+	html = TRUE,
+    docx = FALSE,
+    latex = FALSE)
+evalpdf <- switch(out_type,    
+	html = FALSE,
+    docx = FALSE,
+    latex = TRUE)
+evalword <- switch(out_type,    
+	html = FALSE,
+    docx = TRUE,
+    latex = FALSE)
+
+```
+
+## Project Information
+
+- Project Number: P14014
+- Project Start: 2015-04-07
+- Project Finish: ?
+- Project Main Dir:
+- Date Obtained:
+- Data Updated:
+- Updated: `r Sys.time()`
+- format: `r out_type`
+
+
+```{r using_pkg, include = FALSE, echo = FALSE}
+library("knitr")
+library("ggplot2")
+library(plyr)
+library("dplyr", warn.conflicts = FALSE)   
+library(texreg)
+myreg <- function(obj,...,type="html"){
+	switch(type,
+	html=htmlreg(obj,...,star.symbol="\\*"),
+	docx=screenreg(obj,...),
+	latex=texreg(obj,...)
+	)
+}
+```
+
+```{r global_options, include = FALSE, cache = FALSE}
+knit_hooks$set(purl = hook_purl)
+options(width = 90, 
+        xtable.comment = FALSE, xtable.caption.placement = "top",
+        xtable.include.rownames = FALSE, xtable.NA.string = "NA",
+        xtable.size = "footnotesize")
+### knitr chunk options ###
+opts_chunk$set(echo     = FALSE,
+               warning  = FALSE, 
+               message  = FALSE,
+               tidy     = TRUE,
+               fig.path = "Figure/", fig.width = 6, fig.height = 4, fig.retina = 1,
+               dev      = c("pdf", "png"),
+               dpi      = 150)
+theme_set(theme_classic(base_size = 18, base_family = "Helvetica"))
+
+## More settings
+
+opts_template$set(myfigures = list(fig.height = 6.5, fig.width = 6.5))
+opts_template$set(tabhtml = list(eval=evalhtml,results="asis",include=evalhtml))
+opts_template$set(tabpdf = list(eval=evalpdf,results="asis",include=evalpdf))
+opts_template$set(tabword = list(eval=evalword,results="markup",include=evalword,comment=NA,echo=FALSE))
+
+out_label <- switch(out_type,    
+                    html = "tabhtml",
+                    docx = "tabword",
+                    latex = "tabpdf")
+
+opts_template$set(codeBook=list(eval=TRUE,echo=TRUE))
+```
+
+
+
+
+
+
+
+# Executive Summary
+
+# Introduction
+
+# Material and Methods
+
+# Results
+
+```{r, echo = TRUE,purl=FALSE}
+mtcars %>% head()
+```
+
+```{r, eval = TRUE, results = 'asis'}
+require(broom)
+require(xtable)
+glm(am ~ wt, mtcars, family = "binomial") %>% tidy %>%
+  xtable(caption ="Caption") %>%
+  print()
+```
+
+
+```{r, opts.label=out_label}
+test <- glm(am ~ wt, mtcars, family = "binomial") 
+myreg(test,type=out_type)
+```
+
+# Conclusion and Discussion
+
+# References
+
+## Acknowledgments
+
+# Appendix A: Additional Results
+
+# Appendix B: Reproducible R Scripts (and Outputs)
+
+```{r eval=FALSE}
+read_chunk('lib/Rsquare.R')
+```
